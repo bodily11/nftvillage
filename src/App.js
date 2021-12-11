@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginTop: 73,
     paddingBottom:50,
-    background: "grey",
+    background: "#B0B0B0",
   },
   footer: {
     textAlign: "center",
@@ -88,6 +88,11 @@ export default function App() {
     <>
       <Navbar view={""} loader={loader} collections={collections} collection={false} />
       <main className={classes.content}>
+        <a href="https://forms.gle/iyePpjCrCbxD34E17" rel="noreferrer" target="_blank" style={{ background: "rgb(88, 174, 31)", color: "rgb(255, 255, 255)" }}>
+          <span style={{ background: "rgb(88, 174, 31)", color: "rgb(255, 255, 255)" }}>
+            Feedback
+          </span>
+        </a>
         <div className={classes.inner}>
           <Switch>
             <Route path="/collection/:route" exact>
