@@ -312,6 +312,16 @@ export default function Listings(props) {
     }
   };
 
+  const mintNumber = (a) => {
+    if (collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai")
+      return a[0];
+    if (collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
+      return a[0];
+    if (collection.canister === "q6hjz-kyaaa-aaaah-qcama-cai")
+      return a[0];
+    else return a[0] + 1;
+  };
+
   const applyAdvancedFilters = (a, s) => {
     a = a.filter(
       (_a) => {
@@ -361,8 +371,8 @@ export default function Listings(props) {
         || maxPrice !== "" && (price === null || Number(price) / 100000000 > Number(maxPrice))) {
           return false;
         }
-        else if (minMint !== "" && Number(_a[0]) + 1 < Number(minMint)
-        || maxMint !== "" && Number(_a[0]) + 1 > Number(maxMint)) {
+        else if (minMint !== "" && mintNumber(_a) < Number(minMint)
+        || maxMint !== "" && mintNumber(_a) > Number(maxMint)) {
           return false;
         } else if (minNri !== "" && Number(getNri(collection?.canister, _a[0])) * 100 < Number(minNri)
         || maxNri !== "" && Number(getNri(collection?.canister, _a[0])) * 100 > Number(maxNri)) {

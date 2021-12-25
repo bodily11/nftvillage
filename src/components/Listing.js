@@ -134,7 +134,7 @@ export default function Listing(props) {
   const handlePopupOpen = () => {
     props.onListingDialogChange(true);
     var saleTransactions = props.transactions.filter(
-      (_t) => extjs.encodeTokenId(props.collection.canister, mintNumber()-1) === _t.token);
+      (_t) => extjs.encodeTokenId(props.collection.canister, props.listing[0]) === _t.token);
     if (saleTransactions.length > sales.length) {
       var volume = 0;
       var data = [];
@@ -181,6 +181,14 @@ export default function Listing(props) {
     if (listing.locked.length === 0) return false;
     if (Date.now() >= Number(listing.locked[0] / 1000000n)) return false;
     return true;
+  };
+
+  const indexNumber = () => {
+    if (props.collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai")
+      return props.listing[0] - 1;
+    if (props.collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
+      return props.listing[0] - 1;
+    else return props.listing[0];
   };
 
   const mintNumber = () => {
@@ -403,6 +411,27 @@ export default function Listing(props) {
                     )
                     }
                     </Typography>
+                    <div style={{ marginTop: "20px"}}>
+                      { props.showing === "all" ? (
+                        <>
+                        { props.listing[2].length !== 0 ? (
+                          <div style={{width:"100%", "text-align":"center"}}>
+                            <a href="https://entrepot.app/marketplace" target="_blank">
+                              <img src="/entrepot-btn.png"/>
+                            </a>
+                          </div>
+                        ) : ("")
+                        }
+                        </>
+                      ) : (
+                        <div style={{width:"100%", "text-align":"center"}}>
+                          <a href="https://entrepot.app/marketplace" target="_blank">
+                            <img src="/entrepot-btn.png"/>
+                          </a>
+                        </div>
+                      )
+                      }
+                    </div>
                   </div>
                   <div style={{ marginTop: "40px"}}>
 				          {props.collection.canister === "e3izy-jiaaa-aaaah-qacbq-cai" ? (
@@ -465,10 +494,10 @@ export default function Listing(props) {
                                 <Grid item xs={4}>
                                   <strong>{characteristic}</strong>
                                   <br />
-                                  {props.collection.data.values[i][props.collection.data.tokens[mintNumber()-1][i]]}
+                                  {props.collection.data.values[i][props.collection.data.tokens[indexNumber()][i]]}
                                   <br />
                                   <Typography variant="body2" color="textSecondary" component="p">
-                                  {Math.round(props.collection.data.counts[i][props.collection.data.tokens[mintNumber()-1][i]] / props.collection.data.supply * 100 * 100) / 100 }% have this trait
+                                  {Math.round(props.collection.data.counts[i][props.collection.data.tokens[indexNumber()][i]] / props.collection.data.supply * 100 * 100) / 100 }% have this trait
                                   </Typography>
                                 </Grid>
                               );

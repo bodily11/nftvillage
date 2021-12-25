@@ -10,6 +10,7 @@ import * as icdrips from "./ICDrips.js";
 import * as icpunks from "./ICPunks.js";
 import * as hamsters from "./Hamsters.js";
 import * as ictuts from "./ICTuts.js";
+import * as icbunnies from "./ICBunnies.js";
 
 var collections = [
   {
@@ -316,7 +317,7 @@ var collections = [
         outer worlds to maximize their powers.
       </>
     ),
-  },
+  },*/
   {
     canister: "q6hjz-kyaaa-aaaah-qcama-cai",
     priority : 89,
@@ -324,6 +325,7 @@ var collections = [
     unit : "Bunny",
     brief : "10,000 ICBunnies on the IC",
     route: "icpbunny",
+    data : icbunnies,
     nftv : true,
     mature: false,
     market : true,
@@ -331,7 +333,7 @@ var collections = [
     comaddress:
       "9f04077bd8ef834f7bcca5177f28fb655a7e68d8f2da9c1e6441c4f567f5dce7",
     blurb: false,
-  },*/
+  },
 
 ];
 export default collections;
