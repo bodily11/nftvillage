@@ -94,7 +94,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: theme.spacing(2),
   borderTop: '1px solid rgba(0, 0, 0, .125)',
   overflow: 'scroll',
-  maxHeight: '300px'
+  maxHeight: '500px'
 }));
 
 export default function Listings(props) {
@@ -109,6 +109,7 @@ export default function Listings(props) {
   const [sort, setSort] = useState("mint_number");
   const [collapseOpen, setCollapseOpen] = useState(false);
   const [characteristicsFilters, setCharacteristicsFilters] = useState([]);
+  const [registry, setRegistry] = useState([]);
   const [healthDominantValue, setHealthDominantValue] = React.useState([0, 63]);
   const [healthRecessiveValue, setHealthRecessiveValue] = React.useState([0, 63]);
   const [speedDominantValue, setSpeedDominantValue] = React.useState([0, 63]);
@@ -130,12 +131,14 @@ export default function Listings(props) {
   const [baseDominantValue, setBaseDominantValue] = React.useState([0, 63]);
   const [baseRecessiveValue, setBaseRecessiveValue] = React.useState([0, 63]);
   const [showing, setShowing] = useState("all");
+  const [address, setAddress] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [minMint, setMinMint] = useState("");
   const [maxMint, setMaxMint] = useState("");
   const [minNri, setMinNri] = useState("");
   const [maxNri, setMaxNri] = useState("");
+  const [counts, setCounts] = useState([]);
   const [wearableFilter, setWearableFilter] = useState("all");
   //const [collection, setCollection] = useState('nbg4r-saaaa-aaaah-qap7a-cai');
   const [collection, setCollection] = useState(collections.find(e => e.route === params?.route));
@@ -276,6 +279,10 @@ export default function Listings(props) {
     setMaxNri(event.target.value);
   };
 
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+  };
+
   const handleFiltersChange = async () => {
     props.loader(true);
     await refresh(showing, collection.canister);
@@ -289,7 +296,8 @@ export default function Listings(props) {
     props.loader(false);
   };
 
-  const handleCheckboxChange = (e, i, j) => {
+  const handleCheckboxChange = async (e, i, j) => {
+    props.loader(true);
     var length;
     if (collection.data) {
       length = collection.data.characteristics.length;
@@ -310,6 +318,9 @@ export default function Listings(props) {
         }
       }
     }
+    console.log(characteristicsFilters);
+    await refresh(showing, collection.canister);
+    props.loader(false);
   };
 
   const mintNumber = (a) => {
@@ -320,6 +331,14 @@ export default function Listings(props) {
     if (collection.canister === "q6hjz-kyaaa-aaaah-qcama-cai")
       return a[0];
     else return a[0] + 1;
+  };
+
+  const indexNumber = (a) => {
+    if (collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai")
+      return a[0] - 1;
+    if (collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
+      return a[0] - 1;
+    else return a[0];
   };
 
   const applyAdvancedFilters = (a, s) => {
@@ -354,7 +373,7 @@ export default function Listings(props) {
               result = characteristicsFilters[i].length === 0 ? true : characteristicsFilters[i].includes(genes.color.eyes.dominant-1);
             }
           } else {
-            result = characteristicsFilters[i].length === 0 ? true : characteristicsFilters[i].includes(collection.data.tokens[_a[0]][i]);
+            result = characteristicsFilters[i].length === 0 ? true : characteristicsFilters[i].includes(collection.data.tokens[indexNumber(_a)][i]);
           }
           if (!result) { break; }
         }
@@ -371,6 +390,9 @@ export default function Listings(props) {
         || maxPrice !== "" && (price === null || Number(price) / 100000000 > Number(maxPrice))) {
           return false;
         }
+        if (address !== "" && address !== registry[_a[0]][1]) {
+          return false;
+        }
         else if (minMint !== "" && mintNumber(_a) < Number(minMint)
         || maxMint !== "" && mintNumber(_a) > Number(maxMint)) {
           return false;
@@ -381,6 +403,19 @@ export default function Listings(props) {
         return result;
             }
           );
+      if (counts.length > 0) {
+        for (var i = 0; i < counts.length; i++) {
+          counts[i] =[];
+          for (var j = 0; j < collection.data.values[i].length; j++) {
+            counts[i][j] = 0;
+          }
+        }
+        a.forEach(_a => {
+          for (var tk in collection.data.tokens[indexNumber(_a)]) {
+            counts[tk][collection.data.tokens[indexNumber(_a)][tk]] = counts[tk][collection.data.tokens[indexNumber(_a)][tk]] + 1;
+          }
+        });
+      }
       if(collection.canister === "e3izy-jiaaa-aaaah-qacbq-cai") {
         var nonfungibleIndex = 1;
         if (a.length > 0 && typeof a[0][2].nonfungible !== 'undefined') {
@@ -474,7 +509,7 @@ export default function Listings(props) {
     tks.forEach(_tk => {
       allTks[_tk[0]] = _tk;
     });
-    if (collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai" || collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai" || collection.canister === "q6hjz-kyaaa-aaaah-qcama-cai"){
+    if (collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai" || collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai"){
       for (var i = 1; i <= length; i++) {
         if (typeof allTks[i] === 'undefined') {
           allTks[i] = [i, tks[0][1]];
@@ -525,6 +560,9 @@ export default function Listings(props) {
       c = c ?? collection?.canister;
       if (!_isCanister(c)) return setListings([]);
       if (!collection.market) return setListings([]);
+      if (collection.data) {
+        setCounts(collection.data.counts);
+      }
       try {
         var r = await api.token(collection.canister).stats();
         setStats(r);
@@ -548,6 +586,8 @@ export default function Listings(props) {
           setAllListings(listings);
           listings = applyFilters(listings, s, c);
           setListings(listings);
+          var rgtry = await api.canister(c).getRegistry();
+          setRegistry(rgtry);
           if (s === "all") {
             var tks = await api.canister(c).getTokens();
             getAllTokens(tks, listings, transactions, s, c);
@@ -581,7 +621,7 @@ export default function Listings(props) {
   }, [wearableFilter]);*/
   return (//maxWidth:1200, margin:"0 auto",
     <div style={{ display: "flex"}}>
-    {_isCanister(collection.canister) && collection.market && showing !== "sold" && typeof collection.data !== 'undefined' ? (
+    {_isCanister(collection.canister) && collection.market && showing !== "sold" && typeof collection.data !== 'undefined' && counts.length > 0 ? (
       <div style={{ width: "25%" }}>
         <Accordion defaultExpanded={true}>
           <AccordionSummary>
@@ -590,6 +630,12 @@ export default function Listings(props) {
           <AccordionDetails>
             <div style={{ display: "block"}}>
               <div>
+                <strong>Address:</strong>
+                <div>
+                  <TextField style={{ width: "100%"}} value={address} onChange={handleAddressChange} label="Address" variant="standard" />
+                </div>
+              </div>
+              <div style={{ marginTop: 20}}>
                 <strong>Price:</strong>
                 <div style={{ display: "flex"}}>
                   <TextField style={{ width: "40%"}} InputProps={{ inputProps: { min: 0} }} value={minPrice} onChange={handleMinPriceChange} label="Min" type="number" variant="standard" />
@@ -610,6 +656,14 @@ export default function Listings(props) {
                   <TextField style={{ width: "40%", marginLeft: 40}} InputProps={{ inputProps: { min: 0, max: 100} }} value={maxNri} onChange={handleMaxNriChange} type="number" label="Max" variant="standard" />
                 </div>
               </div>
+              <div style={{ display: "flex", "align-items": "center", "justify-content": "center", background: "white" }}>
+                <Button variant="contained"
+                color="primary"
+                style={{ marginTop: "30px", marginBottom: "20px", backgroundColor: "#003240", color: "white" }}
+                  onClick={handleFiltersChange}>
+                  Apply
+                </Button>
+              </div>
             </div>
           </AccordionDetails>
         </Accordion>
@@ -622,23 +676,17 @@ export default function Listings(props) {
               <AccordionDetails>
                 <FormGroup row={true}>
                   {collection.data.values[i].map((value, j) => {
-                  return (
-                    <FormControlLabel control={<Checkbox defaultChecked={typeof characteristicsFilters[i] !== 'undefined' && characteristicsFilters[i].includes(j)} onChange={(e) => handleCheckboxChange(e, i, j)} />} label={value + " [" + collection.data.counts[i][j] + "]"} />
-                    );
+                  if (counts[i][j]) {
+                    return (
+                      <FormControlLabel control={<Checkbox defaultChecked={typeof characteristicsFilters[i] !== 'undefined' && characteristicsFilters[i].includes(j)} onChange={(e) => handleCheckboxChange(e, i, j)} />} label={value + " [" + counts[i][j] + "]"} />
+                      );
+                  }
                   })}
                 </FormGroup>
               </AccordionDetails>
             </Accordion>
           );
         })}
-        <div style={{ display: "flex", "align-items": "center", "justify-content": "center", background: "white" }}>
-          <Button variant="contained"
-          color="primary"
-          style={{ marginTop: "20px", marginBottom: "20px", backgroundColor: "#003240", color: "white" }}
-            onClick={handleFiltersChange}>
-            Apply
-          </Button>
-        </div>
       </div>
     ) : (
       ""
@@ -671,6 +719,14 @@ export default function Listings(props) {
                   <TextField style={{ width: "40%"}} InputProps={{ inputProps: { min: 0, max: 100} }} value={minNri} onChange={handleMinNriChange} label="Min" type="number" variant="standard" />
                   <TextField style={{ width: "40%", marginLeft: 40}} InputProps={{ inputProps: { min: 0, max: 100} }} value={maxNri} onChange={handleMaxNriChange} type="number" label="Max" variant="standard" />
                 </div>
+              </div>
+              <div style={{ display: "flex", "align-items": "center", "justify-content": "center", background: "white" }}>
+                <Button variant="contained"
+                color="primary"
+                style={{ marginTop: "30px", marginBottom: "20px", backgroundColor: "#003240", color: "white" }}
+                  onClick={handleFiltersChange}>
+                  Apply
+                </Button>
               </div>
             </div>
           </AccordionDetails>
@@ -787,14 +843,6 @@ export default function Listings(props) {
             </FormGroup>
           </AccordionDetails>
         </Accordion>
-        <div style={{ display: "flex", "align-items": "center", "justify-content": "center", background: "white" }}>
-          <Button variant="contained"
-          color="primary"
-          style={{ marginTop: "20px", marginBottom: "20px", backgroundColor: "#003240", color: "white" }}
-            onClick={handleFiltersChange}>
-            Apply
-          </Button>
-        </div>
       </div>
     ) : (
       ""
