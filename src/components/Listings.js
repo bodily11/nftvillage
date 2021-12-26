@@ -318,7 +318,6 @@ export default function Listings(props) {
         }
       }
     }
-    console.log(characteristicsFilters);
     await refresh(showing, collection.canister);
     props.loader(false);
   };
@@ -390,7 +389,7 @@ export default function Listings(props) {
         || maxPrice !== "" && (price === null || Number(price) / 100000000 > Number(maxPrice))) {
           return false;
         }
-        if (address !== "" && address !== registry[_a[0]][1]) {
+        if (address !== "" && ( typeof registry[registry.findIndex(r => r[0] === _a[0])] === 'undefined' || address !== registry[registry.findIndex(r => r[0] === _a[0])][1])) {
           return false;
         }
         else if (minMint !== "" && mintNumber(_a) < Number(minMint)
@@ -700,6 +699,12 @@ export default function Listings(props) {
           <AccordionDetails>
             <div style={{ display: "block"}}>
               <div>
+                <strong>Address:</strong>
+                <div>
+                  <TextField style={{ width: "100%"}} value={address} onChange={handleAddressChange} label="Address" variant="standard" />
+                </div>
+              </div>
+              <div style={{ marginTop: 20}}>
                 <strong>Price:</strong>
                 <div style={{ display: "flex"}}>
                   <TextField style={{ width: "40%"}} InputProps={{ inputProps: { min: 0} }} value={minPrice} onChange={handleMinPriceChange} label="Min" type="number" variant="standard" />
