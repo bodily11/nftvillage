@@ -8,9 +8,11 @@ import * as bulls from "./Bulls.js";
 import * as ivc from "./IVC.js";
 import * as icdrips from "./ICDrips.js";
 import * as icpunks from "./ICPunks.js";
+import * as icats from "./ICats.js";
 import * as hamsters from "./Hamsters.js";
 import * as ictuts from "./ICTuts.js";
 import * as icbunnies from "./ICBunnies.js";
+import * as meme from "./Meme.js";
 
 var collections = [
   {
@@ -35,6 +37,30 @@ var collections = [
     commission: 0.035,
     comaddress: "ace16992dcde53c7c67b396b65924be0e19bed8704a2a68b9cc794d100c3cd17",
     blurb: (<><p>500 years from now humans have long left earth and only the Robots remain. Robots have managed to create new identities often based on relics they have found from earths past. This collection features 5 groups of Robots that exist in the eastern waste lands near former Delta city. The Battle bots, they are tough and are used to hard work, entertainment bots constructed from old video game and junk food toy parts found in the giant rubbish heaps of former Antarctica. Wild bots have become deranged after the giant solar flare of 2453AD. The god class has come to rule much of eastern earth, they have abilities beyond normal bots. The masters are a secret society of robots that have links to the off world colony of Europa base 7.</p></>),
+  },
+  {
+    canister: "txr2a-fqaaa-aaaah-qcmkq-cai",
+    priority : 97,
+    name: "Meme Cake",
+    brief : "7,777 Dick NFT's",
+    description : "Meme Cake is a Social NFT marketplace.",
+    keywords : "Marketplace, Meme, Social, NFT",
+    banner : "/collections/mc/banner.jpg",
+    avatar : "/collections/mc/avatar.png",
+    collection : "/collections/mc/collection.jpg",
+    telegram : "https://t.me/meme_cake",
+    discord : "https://discord.com/invite/3CrSxgccPM",
+    twitter : "https://twitter.com/realmemecake",
+    web : "https://memecake.io/",
+    data : meme,
+    route: "memecake",
+    unit : "DICK",
+    nftv : true,
+    mature: false,
+    market : true,
+    commission: 0.035,
+    comaddress: "2b07d34e254e077e0ef01b1784fcd790016057781e67dbdccc59217ccad725fb",
+    blurb: (<><p>Meme Cake is a Social NFT marketplace. This is a marketplace where you can SHILL and SELL your NFT's. The community can vote on the best projects and fund them and help them launch.</p></>),
   },
   {
     canister: "dknxi-2iaaa-aaaah-qceuq-cai",
@@ -264,6 +290,31 @@ var collections = [
         </a>
       </>
     ),
+  },
+  {
+    canister: "y3b7h-siaaa-aaaah-qcnwa-cai",
+    priority : 94,
+    name: "ICats",
+    brief : "10,000 cat clowns of ICP!",
+    description : "ICats are companions to ICPunks, the most popular Internet Computer NFT collection.",
+    blurb: (<><p>ICats are companions to ICPunks, the most popular Internet Computer NFT collection. ICats were airdropped to ICPunk holders as a thank you note and a sign of what’s coming from Gigaverse Labs. There are exactly 10,000 unique ICats in the collection.</p></>),
+    keywords : "companion icpunks cats clowns",
+    web : "https://icpunks.com/",
+    //telegram : "https://t.me/TheICPArt",
+    discord : "https://discord.gg/Gghf7WZRCQ",
+    twitter : "https://twitter.com/GigaverseLabs",
+    //medium : "https://elementum.medium.com",
+    avatar : "/collections/icats/avatar.jpg",
+    collection : "/collections/icats/collection.png",
+    banner : "/collections/icats/banner.png",
+    route: "icats",
+    commission: 0.06,
+    comaddress: "7fecfe7fabd704af13b923e27fc04a2ba72d94526446733d72ecf8cab52da7c8",
+    unit : "NFT",
+    data : icats,
+    nftv : true,
+    mature: false,
+    market : true,
   },
   {
     canister: "3db6u-aiaaa-aaaah-qbjbq-cai",

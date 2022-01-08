@@ -117,6 +117,8 @@ export default function Token(props) {
             c = getCollection("3db6u-aiaaa-aaaah-qbjbq-cai");
           } else if (col === "punks") {
             c = getCollection("bxdf4-baaaa-aaaah-qaruq-cai");
+          } else if (col === "cats") {
+            c = getCollection("y3b7h-siaaa-aaaah-qcnwa-cai");
           } else {
             props.loader(false);
             history.push("/home");
@@ -233,6 +235,8 @@ export default function Token(props) {
   const indexNumber = () => {
     if (collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai")
       return token[0] - 1;
+    if (collection.canister === "y3b7h-siaaa-aaaah-qcnwa-cai")
+      return token[0] - 1;
     if (collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
       return token[0] - 1;
     else return token[0];
@@ -242,6 +246,11 @@ export default function Token(props) {
     if (collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai")
       return (
         "https://qcg3w-tyaaa-aaaah-qakea-cai.raw.ic0.app/Token/" +
+        index
+      );
+    if (collection.canister === "y3b7h-siaaa-aaaah-qcnwa-cai")
+      return (
+        "https://4nvhy-3qaaa-aaaah-qcnoq-cai.raw.ic0.app/Token/" +
         index
       );
     if (collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
@@ -305,7 +314,11 @@ export default function Token(props) {
     </Grid>
     <div style={{ marginTop: "20px"}}>
       <Typography style={{ fontSize: 14, textAlign: "center" }} color={"inherit"} gutterBottom>
-        NRI:
+        {["txr2a-fqaaa-aaaah-qcmkq-cai"].indexOf(collection.canister) >= 0 ? (
+          "TRI:"
+        ) : (
+          "NRI"
+        )}
       </Typography>
       <Typography
         style={{

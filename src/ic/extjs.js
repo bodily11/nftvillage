@@ -79,11 +79,16 @@ class ExtConnection {
     "qz7gu-giaaa-aaaaf-qaaka-cai" : _preloadedIdls['hzld'],
     "kxh4l-cyaaa-aaaah-qadaq-cai" : advancedIDL,
     "bxdf4-baaaa-aaaah-qaruq-cai" : wrapperIDL,
+    "y3b7h-siaaa-aaaah-qcnwa-cai" : wrapperIDL,
+    "4nvhy-3qaaa-aaaah-qcnoq-cai" : icpunksIDL,
     "qcg3w-tyaaa-aaaah-qakea-cai" : icpunksIDL,
     "qgsqp-byaaa-aaaah-qbi4q-cai" : logIDL,
     "d3ttm-qaaaa-aaaai-qam4a-cai" : icdripIDL,
     "3db6u-aiaaa-aaaah-qbjbq-cai" : wrapperIDL,
     "bzsui-sqaaa-aaaah-qce2a-cai" : pokedIDL,
+    "3mttv-dqaaa-aaaah-qcn6q-cai" : icapesIDL,
+    "v3zkd-syaaa-aaaah-qcm5a-cai" : icapesIDL,
+    "unssi-hiaaa-aaaah-qcmya-cai" : icapesIDL,
     "zvycl-fyaaa-aaaah-qckmq-cai" : icapesIDL,
     "px5ub-qqaaa-aaaah-qcjxa-cai" : imaginationIDL,
     "njgly-uaaaa-aaaah-qb6pa-cai" : icpuppy,
@@ -202,6 +207,7 @@ class ExtConnection {
       getTokens : (aid, principal) => {
         return new Promise((resolve, reject) => {
           switch(tokenObj.canister) {
+            case "4nvhy-3qaaa-aaaah-qcnoq-cai":
             case "qcg3w-tyaaa-aaaah-qakea-cai":
             case "jzg5e-giaaa-aaaah-qaqda-cai":
             case "d3ttm-qaaaa-aaaai-qam4a-cai":
@@ -420,6 +426,7 @@ class ExtConnection {
               //Notify here
             break;
             case "qcg3w-tyaaa-aaaah-qakea-cai":
+            case "4nvhy-3qaaa-aaaah-qcnoq-cai":
             case "jzg5e-giaaa-aaaah-qaqda-cai":
             case "d3ttm-qaaaa-aaaai-qam4a-cai":
             case "xkbqi-2qaaa-aaaah-qbpqq-cai":

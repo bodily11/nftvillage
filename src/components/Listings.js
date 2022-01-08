@@ -325,6 +325,8 @@ export default function Listings(props) {
   const mintNumber = (a) => {
     if (collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai")
       return a[0];
+    if (collection.canister === "y3b7h-siaaa-aaaah-qcnwa-cai")
+      return a[0];
     if (collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
       return a[0];
     if (collection.canister === "q6hjz-kyaaa-aaaah-qcama-cai")
@@ -334,6 +336,8 @@ export default function Listings(props) {
 
   const indexNumber = (a) => {
     if (collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai")
+      return a[0] - 1;
+    if (collection.canister === "y3b7h-siaaa-aaaah-qcnwa-cai")
       return a[0] - 1;
     if (collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
       return a[0] - 1;
@@ -403,17 +407,19 @@ export default function Listings(props) {
             }
           );
       if (counts.length > 0) {
-        for (var i = 0; i < counts.length; i++) {
-          counts[i] =[];
+        var newCounts = counts;
+        for (var i = 0; i < newCounts.length; i++) {
+          newCounts[i] =[];
           for (var j = 0; j < collection.data.values[i].length; j++) {
-            counts[i][j] = 0;
+            newCounts[i][j] = 0;
           }
         }
         a.forEach(_a => {
           for (var tk in collection.data.tokens[indexNumber(_a)]) {
-            counts[tk][collection.data.tokens[indexNumber(_a)][tk]] = counts[tk][collection.data.tokens[indexNumber(_a)][tk]] + 1;
+            newCounts[tk][collection.data.tokens[indexNumber(_a)][tk]] = newCounts[tk][collection.data.tokens[indexNumber(_a)][tk]] + 1;
           }
         });
+        setCounts(newCounts);
       }
       if(collection.canister === "e3izy-jiaaa-aaaah-qacbq-cai") {
         var nonfungibleIndex = 1;
@@ -508,7 +514,7 @@ export default function Listings(props) {
     tks.forEach(_tk => {
       allTks[_tk[0]] = _tk;
     });
-    if (collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai" || collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai"){
+    if (collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai" || collection.canister === "y3b7h-siaaa-aaaah-qcnwa-cai" || collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai"){
       for (var i = 1; i <= length; i++) {
         if (typeof allTks[i] === 'undefined') {
           allTks[i] = [i, tks[0][1]];
@@ -560,7 +566,7 @@ export default function Listings(props) {
       if (!_isCanister(c)) return setListings([]);
       if (!collection.market) return setListings([]);
       if (collection.data) {
-        setCounts(collection.data.counts);
+        setCounts([...collection.data.counts]);
       }
       try {
         var r = await api.token(collection.canister).stats();
@@ -649,7 +655,11 @@ export default function Listings(props) {
                 </div>
               </div>
               <div style={{ marginTop: 20}}>
-                <strong>NRI:</strong>
+                {["txr2a-fqaaa-aaaah-qcmkq-cai"].indexOf(collection?.canister) >= 0 ? (
+                  <strong>TRI:</strong>
+                ) : (
+                  <strong>NRI:</strong>
+                )}
                 <div style={{ display: "flex"}}>
                   <TextField style={{ width: "40%"}} InputProps={{ inputProps: { min: 0, max: 100} }} value={minNri} onChange={handleMinNriChange} label="Min" type="number" variant="standard" />
                   <TextField style={{ width: "40%", marginLeft: 40}} InputProps={{ inputProps: { min: 0, max: 100} }} value={maxNri} onChange={handleMaxNriChange} type="number" label="Max" variant="standard" />
@@ -719,7 +729,11 @@ export default function Listings(props) {
                 </div>
               </div>
               <div style={{ marginTop: 20}}>
-                <strong>NRI:</strong>
+                {["txr2a-fqaaa-aaaah-qcmkq-cai"].indexOf(collection?.canister) >= 0 ? (
+                  <strong>TRI:</strong>
+                ) : (
+                  <strong>NRI:</strong>
+                )}
                 <div style={{ display: "flex"}}>
                   <TextField style={{ width: "40%"}} InputProps={{ inputProps: { min: 0, max: 100} }} value={minNri} onChange={handleMinNriChange} label="Min" type="number" variant="standard" />
                   <TextField style={{ width: "40%", marginLeft: 40}} InputProps={{ inputProps: { min: 0, max: 100} }} value={maxNri} onChange={handleMaxNriChange} type="number" label="Max" variant="standard" />

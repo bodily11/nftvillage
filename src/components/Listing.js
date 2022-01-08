@@ -186,6 +186,8 @@ export default function Listing(props) {
   const indexNumber = () => {
     if (props.collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai")
       return props.listing[0] - 1;
+    if (props.collection.canister === "y3b7h-siaaa-aaaah-qcnwa-cai")
+      return props.listing[0] - 1;
     if (props.collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
       return props.listing[0] - 1;
     else return props.listing[0];
@@ -193,6 +195,8 @@ export default function Listing(props) {
 
   const mintNumber = () => {
     if (props.collection.canister === "bxdf4-baaaa-aaaah-qaruq-cai")
+      return props.listing[0];
+    if (props.collection.canister === "y3b7h-siaaa-aaaah-qcnwa-cai")
       return props.listing[0];
     if (props.collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
       return props.listing[0];
@@ -221,6 +225,11 @@ export default function Listing(props) {
         "https://qcg3w-tyaaa-aaaah-qakea-cai.raw.ic0.app/Token/" +
         props.listing[0]
       );
+    if (props.collection.canister === "y3b7h-siaaa-aaaah-qcnwa-cai")
+      return (
+        "https://4nvhy-3qaaa-aaaah-qcnoq-cai.raw.ic0.app/Token/" +
+        props.listing[0]
+      );
     if (props.collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
       return (
         "https://d3ttm-qaaaa-aaaai-qam4a-cai.raw.ic0.app?tokenId=" +
@@ -241,6 +250,11 @@ export default function Listing(props) {
         "https://qcg3w-tyaaa-aaaah-qakea-cai.raw.ic0.app/Token/" +
         props.listing[0]
       );
+    if (props.collection.canister === "y3b7h-siaaa-aaaah-qcnwa-cai")
+      return (
+        "https://4nvhy-3qaaa-aaaah-qcnoq-cai.raw.ic0.app/Token/" +
+        props.listing[0]
+      );
     if (props.collection.canister === "3db6u-aiaaa-aaaah-qbjbq-cai")
       return (
         "https://d3ttm-qaaaa-aaaai-qam4a-cai.raw.ic0.app?tokenId=" +
@@ -253,6 +267,7 @@ export default function Listing(props) {
 
   const nriLink = () => {
     if (props.collection === "bxdf4-baaaa-aaaah-qaruq-cai") return "https://nntkg-vqaaa-aaaad-qamfa-cai.ic.fleek.co/?collection=punks&tokenid=" + props.listing[0];
+    if (props.collection === "y3b7h-siaaa-aaaah-qcnwa-cai") return "https://nntkg-vqaaa-aaaad-qamfa-cai.ic.fleek.co/?collection=cats&tokenid=" + props.listing[0];
     if (props.collection === "3db6u-aiaaa-aaaah-qbjbq-cai") return "https://nntkg-vqaaa-aaaad-qamfa-cai.ic.fleek.co/?collection=drips&tokenid=" + props.listing[0];
     if (props.collection === "q6hjz-kyaaa-aaaah-qcama-cai") return "https://nntkg-vqaaa-aaaad-qamfa-cai.ic.fleek.co/?collection=bunnies&tokenid=" + props.listing[0];
     return "https://nntkg-vqaaa-aaaad-qamfa-cai.ic.fleek.co/?tokenid=" + tokenid;
@@ -277,7 +292,12 @@ export default function Listing(props) {
             <span
               style={{ color: "black", textDecoration: "none" }}
             >
-              NRI: {(props.gri * 100).toFixed(1)}%{" "}
+              {["txr2a-fqaaa-aaaah-qcmkq-cai"].indexOf(props.collection.canister) >= 0 ? (
+                "TRI:"
+              ) : (
+                "NRI"
+              )}
+              {(props.gri * 100).toFixed(1)}%{" "}
             </span>
           </Typography>
         </Grid>
@@ -339,7 +359,11 @@ export default function Listing(props) {
                   </Grid>
                   <div style={{ marginTop: "20px"}}>
                     <Typography style={{ fontSize: 14, textAlign: "center" }} color={"inherit"} gutterBottom>
-                      NRI:
+                      {["txr2a-fqaaa-aaaah-qcmkq-cai"].indexOf(props.collection.canister) >= 0 ? (
+                        "TRI:"
+                      ) : (
+                        "NRI"
+                      )}
                     </Typography>
                     <Typography
                       style={{
@@ -490,17 +514,19 @@ export default function Listing(props) {
                         <div style={{display : "flex", flexDirection : "column", width: "100%"}}>
                           <Grid style={{textAlign:"center"}} container spacing={1}>
                             {props.collection.data.characteristics.map((characteristic, i) => {
-                              return (
-                                <Grid item xs={4}>
-                                  <strong>{characteristic}</strong>
-                                  <br />
-                                  {props.collection.data.values[i][props.collection.data.tokens[indexNumber()][i]]}
-                                  <br />
-                                  <Typography variant="body2" color="textSecondary" component="p">
-                                  {Math.round(props.collection.data.counts[i][props.collection.data.tokens[indexNumber()][i]] / props.collection.data.supply * 100 * 100) / 100 }% have this trait
-                                  </Typography>
-                                </Grid>
-                              );
+                              if (props.collection.data.tokens[indexNumber()][i]) {
+                                return (
+                                  <Grid item xs={4}>
+                                    <strong>{characteristic}</strong>
+                                    <br />
+                                    {props.collection.data.values[i][props.collection.data.tokens[indexNumber()][i]]}
+                                    <br />
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                    {Math.round(props.collection.data.counts[i][props.collection.data.tokens[indexNumber()][i]] / props.collection.data.supply * 100 * 100) / 100 }% have this trait
+                                    </Typography>
+                                  </Grid>
+                                );
+                              }
                             })}
                           </Grid>
                         </div>
