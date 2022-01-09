@@ -293,9 +293,9 @@ export default function Listing(props) {
               style={{ color: "black", textDecoration: "none" }}
             >
               {["txr2a-fqaaa-aaaah-qcmkq-cai"].indexOf(props.collection.canister) >= 0 ? (
-                "TRI:"
+                "TRI: "
               ) : (
-                "NRI"
+                "NRI: "
               )}
               {(props.gri * 100).toFixed(1)}%{" "}
             </span>
@@ -360,9 +360,9 @@ export default function Listing(props) {
                   <div style={{ marginTop: "20px"}}>
                     <Typography style={{ fontSize: 14, textAlign: "center" }} color={"inherit"} gutterBottom>
                       {["txr2a-fqaaa-aaaah-qcmkq-cai"].indexOf(props.collection.canister) >= 0 ? (
-                        "TRI:"
+                        "TRI: "
                       ) : (
-                        "NRI"
+                        "NRI: "
                       )}
                     </Typography>
                     <Typography
