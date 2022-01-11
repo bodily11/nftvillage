@@ -514,7 +514,7 @@ export default function Listing(props) {
                         <div style={{display : "flex", flexDirection : "column", width: "100%"}}>
                           <Grid style={{textAlign:"center"}} container spacing={1}>
                             {props.collection.data.characteristics.map((characteristic, i) => {
-                              if (props.collection.data.tokens[indexNumber()][i]) {
+                              if (typeof props.collection.data.tokens[indexNumber()][i] !== 'undefined') {
                                 return (
                                   <Grid item xs={4}>
                                     <strong>{characteristic}</strong>
